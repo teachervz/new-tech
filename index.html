@@ -1029,7 +1029,7 @@ const LESSON = {
   students: 30,                       // عدد الطالبات (يُستخدم في الاختيار العشوائي)
   orbit:    ['🥽','☁️','🏠','⌚','💳','📶','💾','🖨️'],   // الأيقونات التي تدور في الشريحة الافتتاحية
   core:     '🚀',
-  welcomeBtn: '🔊 استمعي.. الحاسب يرحّب بكنّ',
+  welcomeBtn: '',                     // نص زر الترحيب — اتركيه فارغًا لإخفاء الزر
   welcomeVideo: '',                   // (اختياري) اسم ملف فيديو ترحيب بجانب الملف، مثل: 'welcome.mp4' — إن تُرك فارغًا ينطق الحاسب الجملة التالية
   welcomeVoice: 'مرحبًا يا طالبات! أنا الحاسب. هل تتخيّلن أن تتجوّلن في الفضاء وأنتنّ في الفصل، أو أن تطبعن منزلًا كاملًا بطابعة؟ هذا ليس خيالًا.. إنها التقنيات الناشئة، درسنا اليوم!'
 };
@@ -1049,7 +1049,7 @@ const SLIDES = [
 
   /* 1) الشريحة الافتتاحية */
   { type:'title', anim:'zoom',
-    notes:'اضغطي زر «استمعي» ليرحّب الحاسب بالطالبات صوتيًا، ثم انتقلي إلى مراجعة الدرس السابق (الذكاء الاصطناعي).' },
+    notes:'رحّبي بالطالبات وقدّمي عنوان الدرس، ثم انتقلي إلى مراجعة الدرس السابق (الذكاء الاصطناعي).' },
 
   /* 2) مراجعة الدرس السابق: الذكاء الاصطناعي */
   { type:'loopSort', anim:'slide', stage:'مراجعة الدرس السابق', strategy:'🧩 صنّفي وتذكّري',
@@ -1735,13 +1735,13 @@ const T = {
         <h1 class="st">${LESSON.title}</h1>
         <p class="sub st">${LESSON.subtitle}</p>
         <div class="meta st"><span>👩‍🏫 ${LESSON.teacher}</span><span>📅 ${new Date().toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'})}</span></div>
-        <button class="btn st say">${LESSON.welcomeBtn||'🔊 استمعي'}</button>
+        ${LESSON.welcomeBtn?`<button class="btn st say">${LESSON.welcomeBtn}</button>`:''}
       </div>
       <div class="orbit-wrap st">
         <div class="orbit-ring">${(LESSON.orbit||['💬','👁️','🚗','🎮','🩺','🌐','🦾','🎙️']).map((e,i,all)=>{const a=i/all.length*2*Math.PI;return `<span style="left:${50+50*Math.cos(a)}%;top:${50+50*Math.sin(a)}%">${e}</span>`}).join('')}</div>
         <div class="orbit-core"><span class="float">${LESSON.core||'🤖'}</span></div>
       </div></div>`,
-    init:(el)=>{ $('.say',el).onclick=()=>LESSON.welcomeVideo?playWelcomeVideo():say(LESSON.welcomeVoice); }
+    init:(el)=>{ const b=$('.say',el); if(b) b.onclick=()=>LESSON.welcomeVideo?playWelcomeVideo():say(LESSON.welcomeVoice); }
   },
 
   /* ---------- مراجعة المراقبة والتحكم: تصنيف مفتوح / مغلق ---------- */
